@@ -1,0 +1,47 @@
+<div class="suggestions-container">
+  <h2 class="page-title">Liste des suggestions</h2>
+
+  <input type="text"
+         class="search-bar"
+         placeholder="Rechercher une suggestion..."
+         [(ngModel)]="searchText">
+
+  <div class="suggestions-list">
+    <div *ngFor="let s of suggestions">
+
+      <div class="suggestion-card"
+           *ngIf="s.title.toLowerCase().includes(searchText.toLowerCase())
+               || s.category.toLowerCase().includes(searchText.toLowerCase())">
+
+        <div class="card-header">
+          <h3 class="card-title">{{s.title}}</h3>
+          <div class="card-meta">
+            <span class="category">{{s.category}}</span>
+            <span class="date">{{s.date | date}}</span>
+          </div>
+        </div>
+
+        <p class="card-description">{{s.description}}</p>
+
+        <div class="card-status">
+          <span class="status-badge" [ngClass]="s.status.toLowerCase()">
+            {{s.status | uppercase}}
+          </span>
+        </div>
+        <div class="card-actions" >
+
+          <button  *ngIf="s.status !== 'refusee'" class="btn btn-like" (click)="likeSuggestion(s)">
+            👍 Like {{s.nbLikes}}
+          </button>
+
+          <button  *ngIf="s.status !== 'refusee'" class="btn btn-outline" (click)="addToFavorites(s)">
+            ♡ Ajouter aux favoris
+          </button>
+          <button class="btn btn-like" [routerLink]="['/suggestions' , s.id]"  >Details</button>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
